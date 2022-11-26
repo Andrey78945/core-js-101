@@ -35,8 +35,8 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  return JSON.stringify(obj);
 }
 
 
@@ -52,9 +52,10 @@ function getJSON(/* obj */) {
  *
  */
 function fromJSON(/* proto, json */) {
+  // const p = JSON.parse(json);
+  // return p;
   throw new Error('Not implemented');
 }
-
 
 /**
  * Css selectors builder

@@ -27,8 +27,11 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  if (num % 15 === 0) return 'FizzBuzz';
+  if (num % 5 === 0) return 'Buzz';
+  if (num % 3 === 0) return 'Fizz';
+  return `${num}`;
 }
 
 
@@ -43,8 +46,12 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  let product = 1;
+  for (let index = 1; index <= n; index += 1) {
+    product *= index;
+  }
+  return product;
 }
 
 
@@ -60,8 +67,12 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  let sum = 0;
+  for (let index = n1; index <= n2; index += 1) {
+    sum += index;
+  }
+  return sum;
 }
 
 
@@ -80,8 +91,8 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  return a + b > c && b + c > a && a + c > b;
 }
 
 
@@ -191,8 +202,12 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  // eslint-disable-next-line no-param-reassign
+  if (b < a) [a, b] = [b, a];
+  const open = isStartIncluded ? '[' : '(';
+  const close = isEndIncluded ? ']' : ')';
+  return `${open}${a}, ${b}${close}`;
 }
 
 
@@ -208,8 +223,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -225,8 +240,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return +String(num).split('').reverse().join('');
 }
 
 
@@ -268,8 +283,15 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  if (num < 10) return num;
+  let sum = 0;
+  while (num / 10 > 0) {
+    sum += num % 10;
+    // eslint-disable-next-line no-param-reassign
+    num = Math.floor(num / 10);
+  }
+  return getDigitalRoot(sum);
 }
 
 
@@ -294,8 +316,44 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stack = [];
+  const open = ['(', '[', '{', '<'];
+  for (let i = 0; i < str.length; i += 1) {
+    if (open.includes(str[i])) {
+      stack.push(str[i]);
+    }
+    if (str[i] === '>') {
+      if (stack[stack.length - 1] === '<') {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+    if (str[i] === ']') {
+      if (stack[stack.length - 1] === '[') {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+    if (str[i] === '}') {
+      if (stack[stack.length - 1] === '{') {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+    if (str[i] === ')') {
+      if (stack[stack.length - 1] === '(') {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+  }
+  if (stack.length > 0) return false;
+  return true;
 }
 
 
