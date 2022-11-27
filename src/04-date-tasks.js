@@ -94,10 +94,18 @@ function timeSpanToString(/* startDate, endDate */) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
+function angleBetweenClockHands(date) {
+  let hour = date.getUTCHours();
+  hour = (hour >= 12) ? hour - 12 : hour;
+  const minut = date.getUTCMinutes();
+  // eslint-disable-next-line no-mixed-operators
+  const minuteDeg = minut / 60;
+  const hourDeg = (hour + minuteDeg) / 12;
+  const res = (minuteDeg > hourDeg)
+    ? (minuteDeg - hourDeg) * 2 * Math.PI
+    : (hourDeg - minuteDeg) * 2 * Math.PI;
+  return (res > Math.PI) ? 2 * Math.PI - res : res;
 }
-
 
 module.exports = {
   parseDataFromRfc2822,

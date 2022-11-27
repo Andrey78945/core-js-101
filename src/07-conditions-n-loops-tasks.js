@@ -159,8 +159,8 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  return (point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2 < circle.radius ** 2;
 }
 
 
@@ -175,8 +175,18 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const checked = [];
+  for (let i = 0; i < str.length; i += 1) {
+    if (checked.includes(str[i])) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    const res = str.slice(i + 1).indexOf(str[i]);
+    if (res === -1) return str[i];
+    checked.push(str[i]);
+  }
+  return null;
 }
 
 
@@ -265,8 +275,23 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let sum = 0;
+  // eslint-disable-next-line no-param-reassign
+  ccn += '';
+  const parity = ccn.length % 2;
+  for (let i = 0; i < ccn.length; i += 1) {
+    if ((i + 1) % 2 === parity) {
+      sum += +ccn[i];
+    } else if (ccn[i] > 4) {
+      sum += 2 * (+ccn[i]) - 9;
+    } else {
+      sum += 2 * (+ccn[i]);
+    }
+  }
+  // eslint-disable-next-line no-console
+  console.log(sum);
+  return sum % 10 === 0;
 }
 
 /**
@@ -377,8 +402,18 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  let res = '';
+  while (num > 0) {
+    let rest = num % n;
+    // eslint-disable-next-line no-param-reassign
+    num = Math.floor(num / n);
+    if (rest > 9) {
+      rest = String.fromCharCode(rest + 65);
+    }
+    res = `${rest}${res}`;
+  }
+  return res;
 }
 
 

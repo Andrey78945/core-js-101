@@ -207,16 +207,15 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  // let res = '_'.repeat(width);
-  // for (let index = 0; index < height; index += 1) {
-  //   const body = ' '.repeat(width);
-  //   res += `\n|${body}|`;
-  // }
-  // res += `\n|${'_'.repeat(width)}\n`;
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let res = `┌${'─'.repeat(width - 2)}┐`;
+  for (let index = 0; index < height - 2; index += 1) {
+    const body = ' '.repeat(width - 2);
+    res += `\n│${body}│`;
+  }
+  res += `\n${`└${'─'.repeat(width - 2)}┘`}\n`;
+  return res;
 }
-
 
 /**
  * Encode specified string with ROT13 cipher
@@ -234,8 +233,18 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  return str.split('').map((c) => {
+    let code = c.charCodeAt(0);
+    if (code >= 65 && code <= 90) {
+      // eslint-disable-next-line no-mixed-operators
+      code = 65 + (code - 65 + 13) % 26;
+    } else if (code >= 97 && code <= 122) {
+      // eslint-disable-next-line no-mixed-operators
+      code = 97 + (code - 97 + 13) % 26;
+    }
+    return String.fromCharCode(code);
+  }).join('');
 }
 
 /**
