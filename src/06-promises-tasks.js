@@ -106,16 +106,17 @@ function getFastestPromise(array) {
  *    });
  *
  */
-function chainPromises(array, action) {
+function chainPromises(/* array, action */) {
   // eslint-disable-next-line array-callback-return
-  return new Promise((resolve) => resolve(array.reduce((acc, item) => {
-    try {
-      // eslint-disable-next-line no-return-assign, no-param-reassign
-      item.then((res) => acc += action(res));
-    } catch (err) {
-      console.log(err);
-    }
-  }, 0)));
+  // return new Promise((resolve) => resolve(array.reduce((acc, item) => {
+  //   try {
+  //     // eslint-disable-next-line no-return-assign, no-param-reassign
+  //     item.then((res) => acc += action(res));
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, 0)));
+  throw new Error('Not implemented');
 }
 
 module.exports = {

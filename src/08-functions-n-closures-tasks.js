@@ -173,12 +173,13 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(startFrom) {
-  return () => {
-    let counter = startFrom;
-    // eslint-disable-next-line no-plusplus
-    return counter++;
-  };
+function getIdGeneratorFunction(/* startFrom */) {
+  // return () => {
+  //   let counter = startFrom;
+  //   // eslint-disable-next-line no-plusplus
+  //   return counter++;
+  // };
+  throw new Error('Not implemented');
 }
 
 
