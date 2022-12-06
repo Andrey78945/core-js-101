@@ -237,9 +237,13 @@ function toArrayOfSquares(arr) {
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-function getMovingSum(/* arr */) {
-  // return arr.map((x, sum = 0) => sum + x);
-  throw new Error('Not implemented');
+function getMovingSum(arr) {
+  let sum = 0;
+  const res = arr.map((x) => {
+    sum += x;
+    return sum;
+  });
+  return res;
 }
 
 /**
@@ -272,8 +276,14 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  const res = [];
+  arr.map((x, i) => {
+    const subArr = new Array(i + 1).fill(x);
+    res.push(...subArr);
+    return subArr;
+  });
+  return res;
 }
 
 
@@ -475,11 +485,12 @@ function sortCitiesArray(arr) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  // const arr = Array.from(Array(n), () => new Array(n).fill(0));
-  // eslint-disable-next-line no-return-assign, no-param-reassign
-  // return arr.map((x, i) => x[i][i] = 1);
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return new Array(n).fill(0).map((_, i) => {
+    const subArr = Array(n).fill(0);
+    subArr[i] = 1;
+    return subArr;
+  });
 }
 
 /**
@@ -545,8 +556,16 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const map = new Map();
+  // eslint-disable-next-line array-callback-return
+  array.map((x) => {
+    if (!map.has(keySelector(x))) {
+      map.set(keySelector(x), []);
+    }
+    map.get(keySelector(x)).push(valueSelector(x));
+  });
+  return map;
 }
 
 
@@ -563,9 +582,14 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], (x) => x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  // return arr.map((x) => childrenSelector(x));
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  const res = [];
+  // eslint-disable-next-line array-callback-return
+  arr.map((x) => {
+    const subArr = childrenSelector(x);
+    res.push(...subArr);
+  });
+  return res;
 }
 
 
@@ -581,8 +605,13 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  let res;
+  // eslint-disable-next-line array-callback-return
+  indexes.map((x) => {
+    res = res === undefined ? arr[x] : res[x];
+  });
+  return res;
 }
 
 
@@ -604,8 +633,22 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const half = Math.floor(arr.length / 2);
+  let res = [];
+  if (half === 0) {
+    return arr;
+  }
+  if (arr.length % 2 === 0) {
+    const head = arr.slice(0, half);
+    const tail = arr.slice(half);
+    res = [...tail, ...head];
+  } else {
+    const head = arr.slice(0, half);
+    const tail = arr.slice(half + 1);
+    res = [...tail, arr[half], ...head];
+  }
+  return res;
 }
 
 
