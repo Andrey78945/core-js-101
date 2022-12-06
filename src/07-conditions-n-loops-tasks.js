@@ -128,8 +128,14 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const top1 = -rect1.top;
+  const top2 = -rect2.top;
+  const left = Math.max(rect1.left, rect2.left);
+  const right = Math.min(rect1.left + rect1.width, rect2.left + rect2.width);
+  const top = Math.min(top1, top2);
+  const buttom = Math.max(top1 - rect1.height, top2 - rect2.height);
+  return left < right && top > buttom;
 }
 
 
@@ -452,8 +458,22 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const rows = m1.length;
+  const cols = m2[0].length;
+  const res = [];
+  for (let i = 0; i < rows; i += 1) {
+    const arr = new Array(cols);
+    for (let j = 0; j < cols; j += 1) {
+      let sum = 0;
+      for (let k = 0; k < m2.length; k += 1) {
+        sum += m1[i][k] * m2[k][j];
+      }
+      arr[j] = sum;
+    }
+    res.push(arr);
+  }
+  return res;
 }
 
 
@@ -487,8 +507,32 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  for (let i = 0; i < 3; i += 1) {
+    const row = new Set(position[i]);
+    if (row.size === 1) {
+      if (position[i][0] !== undefined && position[i].length === 3) {
+        return position[i][0];
+      }
+    }
+    const col = new Set([position[0][i], position[1][i], position[2][i]]);
+    if (col.size === 1) {
+      if (position[1][i] !== undefined) {
+        return position[0][i];
+      }
+    }
+  }
+  if (position[0][0] === position[1][1] && position[1][1] === position[2][2]) {
+    if (position[0][0] !== undefined) {
+      return position[0][0];
+    }
+  }
+  if (position[0][2] === position[1][1] && position[1][1] === position[2][0]) {
+    if (position[1][1] !== undefined) {
+      return position[1][1];
+    }
+  }
+  return undefined;
 }
 
 

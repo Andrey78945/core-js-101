@@ -20,8 +20,11 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  this.width = width;
+  this.height = height;
+
+  this.getArea = () => this.width * this.height;
 }
 
 
@@ -51,10 +54,11 @@ function getJSON(obj) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  // const p = JSON.parse(json);
-  // return p;
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  const p = JSON.parse(json);
+  // eslint-disable-next-line no-proto
+  p.__proto__ = proto;
+  return p;
 }
 
 /**
@@ -112,32 +116,45 @@ function fromJSON(/* proto, json */) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  element(value) {
+    this.value = value;
+    return this;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    this.value += `#${value}`;
+    return this;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    this.value += `.${value}`;
+    return this;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    this.value += `[${value}]`;
+    return this;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    this.value += `:${value}`;
+    return this;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    this.value += `::${value}`;
+    return this;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    this.value = `${selector1.value} ${combinator} ${selector2}`;
+    return this;
+  },
+
+  stringify() {
+    const temp = this.value;
+    this.value = '';
+    return temp;
   },
 };
 
