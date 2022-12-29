@@ -295,8 +295,6 @@ function isCreditCardNumber(ccn) {
       sum += 2 * (+ccn[i]);
     }
   }
-  // eslint-disable-next-line no-console
-  console.log(sum);
   return sum % 10 === 0;
 }
 
@@ -435,8 +433,18 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let res = '';
+  const arr = pathes.sort((a, b) => a.length - b.length);
+  for (let i = 0; i < arr[0].length; i += 1) {
+    // eslint-disable-next-line no-loop-func
+    if (arr.every((item) => item.startsWith(res + arr[0][i]))) {
+      res += arr[0][i];
+    }
+  }
+  const index = res.lastIndexOf('/');
+  if (index !== -1) res = res.slice(0, index + 1);
+  return res;
 }
 
 

@@ -67,7 +67,18 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
-  throw new Error('Not implemented');
+  // eslint-disable-next-line prefer-rest-params
+  const arg = arguments;
+  const func = (x) => {
+    const size = arg.length;
+    if (size === 0) return null;
+    let y = 0;
+    for (let i = 0; i < size; i += 1) {
+      y += arg[i] * x ** (size - 1 - i);
+    }
+    return y;
+  };
+  return func;
 }
 
 
@@ -85,8 +96,15 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const memoFunc = (x) => {
+    const memo = new Map();
+    if (memo.has(x)) return memo.get(x);
+    const res = func(x);
+    memo.set(x, res);
+    return res;
+  };
+  return memoFunc;
 }
 
 
@@ -105,8 +123,17 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  // eslint-disable-next-line consistent-return
+  const newFunc = () => {
+    for (let i = 0; i < attempts; i += 1) {
+      try {
+        return func();
+      // eslint-disable-next-line no-empty
+      } catch (err) {}
+    }
+  };
+  return newFunc;
 }
 
 
@@ -133,8 +160,10 @@ function retry(/* func, attempts */) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  logFunc();
+  func();
+  logFunc();
 }
 
 
@@ -151,8 +180,10 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  // eslint-disable-next-line prefer-rest-params
+  const newFunc = (...rest) => fn(...args1, ...rest);
+  return newFunc;
 }
 
 
@@ -173,13 +204,10 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  // return () => {
-  //   let counter = startFrom;
-  //   // eslint-disable-next-line no-plusplus
-  //   return counter++;
-  // };
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let currentCount = startFrom;
+  // eslint-disable-next-line no-plusplus
+  return () => currentCount++;
 }
 
 
