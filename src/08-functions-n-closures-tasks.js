@@ -97,8 +97,8 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
+  const memo = new Map();
   const memoFunc = (x) => {
-    const memo = new Map();
     if (memo.has(x)) return memo.get(x);
     const res = func(x);
     memo.set(x, res);
@@ -161,9 +161,19 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-  logFunc();
-  func();
-  logFunc();
+  return (...x) => {
+    let y = '';
+    for (let i = 0; i < x.length; i += 1) {
+      // eslint-disable-next-line prefer-rest-params
+      y += x[i];
+      if (i !== x.length - 1) y += ', ';
+    }
+    const log1 = `${func.name}(${y}) starts`;
+    const log2 = `${func.name}(${y}) ends`;
+    logFunc(log1);
+    logFunc(log2);
+    return func(...x);
+  };
 }
 
 
